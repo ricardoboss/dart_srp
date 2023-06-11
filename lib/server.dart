@@ -4,6 +4,7 @@ import './session.dart';
 import './srpint.dart';
 import './ephemeral.dart';
 import './params.dart';
+import './srp_exception.dart';
 
 Ephemeral generateEphemeral(String verifier) {
   final N = Params.N;
@@ -43,7 +44,7 @@ Session deriveSession(
   final B = (k * v + g.modPow(b, N)) % N;
 
   if (A % N == 0) {
-    throw Exception('the client sent an invalid public ephemeral');
+    throw SrpException('the client sent an invalid public ephemeral');
   }
 
   final u = H([A, B]);
@@ -65,7 +66,7 @@ Session deriveSession(
   final actual = SrpInt.parse(clientSessionProof, radix: 16);
 
   if (actual != expected) {
-    throw Exception('Client provided session proof is invalid');
+    throw SrpException('Client provided session proof is invalid');
   }
 
   final P = H([A, M, K]);

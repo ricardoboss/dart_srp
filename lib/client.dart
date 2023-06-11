@@ -6,6 +6,7 @@ import './srpint.dart';
 import './params.dart';
 import './ephemeral.dart';
 import './session.dart';
+import './srp_exception.dart';
 
 generateSalt() {
   final random = Random.secure();
@@ -63,7 +64,7 @@ Session deriveSession(
   final A = g.modPow(a, N);
 
   if (B % N == 0) {
-    throw Exception('The server sent an invalid public ephemeral');
+    throw SrpException('The server sent an invalid public ephemeral');
   }
 
   final u = H([A, B]);
@@ -95,6 +96,6 @@ verifySession(String clientPublicEphemeral, Session clientSession,
   final actual = SrpInt.parse(serverSessionProof, radix: 16);
 
   if (actual != expected) {
-    throw Exception('Server provided session proof is invalid');
+    throw SrpException('Server provided session proof is invalid');
   }
 }
