@@ -1,6 +1,9 @@
+import 'package:srp/session_key.dart';
+import 'package:srp/session_proof.dart';
+
 class Session {
-  final String key;
-  final String proof;
+  final SessionKey key;
+  final SessionProof proof;
 
   Session({required this.key, required this.proof});
 }
