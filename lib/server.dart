@@ -1,7 +1,8 @@
 import 'dart:math';
 import 'package:convert/convert.dart';
+import './session.dart';
 import './srpint.dart';
-import './types.dart';
+import './ephemeral.dart';
 import './params.dart';
 
 Ephemeral generateEphemeral(String verifier) {
