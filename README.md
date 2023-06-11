@@ -3,7 +3,7 @@
 
 # srp
 
-Secure Remote Password for dart &amp; flutter
+Secure Remote Password for dart & flutter
 
 ## Getting Started
 
