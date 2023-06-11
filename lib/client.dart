@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:convert/convert.dart';
 
-import './srpint.dart';
+import './srp_int.dart';
 import './params.dart';
 import './ephemeral.dart';
 import './session.dart';
