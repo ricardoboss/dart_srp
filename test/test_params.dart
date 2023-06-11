@@ -1,5 +1,5 @@
 import 'package:crypto/crypto.dart';
-import 'package:srp/srp_config.dart';
+import 'package:srp/config.dart';
 
 final String largeSafePrime =
     'AC6BDB41 324A9A9B F166DE5E 1389582F AF72B665 1987EE07 FC319294' +
@@ -24,4 +24,4 @@ final g = BigInt.parse(
   generatorModulo.toString().replaceAll(' ', ''),
   radix: 16,
 );
-final k = SrpConfig.applyH(H, [N, g]);
+final k = Config.applyH(H, [N, g]);

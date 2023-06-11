@@ -7,13 +7,13 @@ import 'package:srp/secret_ephemeral.dart';
 import 'package:srp/session.dart';
 import 'package:srp/session_key.dart';
 import 'package:srp/session_proof.dart';
-import 'package:srp/srp_config.dart';
+import 'package:srp/config.dart';
 import 'package:srp/srp_exception.dart';
 
-class SrpServer {
-  final SrpConfig config;
+class Server {
+  final Config config;
 
-  const SrpServer(this.config);
+  const Server(this.config);
 
   Ephemeral generateEphemeral(Verifier verifier) {
     final N = config.N;

@@ -1,8 +1,8 @@
-import 'package:srp/srp_client.dart';
+import 'package:srp/client.dart';
 import 'test_params.dart' as test_params;
 import 'package:srp/common.dart' as common;
-import 'package:srp/srp_config.dart';
-import 'package:srp/srp_server.dart';
+import 'package:srp/config.dart';
+import 'package:srp/server.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -10,14 +10,14 @@ void main() {
     final username = 'x@vipycm.com';
     final password = 'password';
 
-    final config = SrpConfig(
+    final config = Config(
       N: test_params.N,
       g: test_params.g,
       H: test_params.H,
     );
     final salt = common.generateSalt();
 
-    final client = SrpClient(config);
+    final client = Client(config);
     final clientEphemeral = client.generateEphemeral();
     final privateKey = client.derivePrivateKey(
       username,
@@ -27,7 +27,7 @@ void main() {
 
     final verifier = client.deriveVerifier(privateKey);
 
-    final server = SrpServer(config);
+    final server = Server(config);
     final serverEphemeral = server.generateEphemeral(verifier);
 
     final clientSession = client.deriveSession(

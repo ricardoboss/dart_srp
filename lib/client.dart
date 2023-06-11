@@ -8,13 +8,13 @@ import 'package:srp/secret_ephemeral.dart';
 import 'package:srp/session.dart';
 import 'package:srp/session_key.dart';
 import 'package:srp/session_proof.dart';
-import 'package:srp/srp_config.dart';
+import 'package:srp/config.dart';
 import 'package:srp/srp_exception.dart';
 
-class SrpClient {
-  final SrpConfig config;
+class Client {
+  final Config config;
 
-  const SrpClient(this.config);
+  const Client(this.config);
 
   PrivateKey derivePrivateKey(
     String username,

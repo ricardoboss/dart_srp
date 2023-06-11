@@ -7,7 +7,7 @@ import 'package:srp/srp_exception.dart';
 
 typedef HashAlgorithm = BigInt Function(Iterable args);
 
-class SrpConfig {
+class Config {
   /// A thin wrapper around [H] to hash multiple values (accepts [BigInt] or
   /// [String]).
   static BigInt applyH(Hash H, Iterable args) {
@@ -49,7 +49,7 @@ class SrpConfig {
   /// SRP procedure.
   /// If [k] is not specified, it will be derived using H(N, g) as required by
   /// SRP-6a. Pass 3 for SRP-6.
-  SrpConfig({
+  Config({
     required this.N,
     required this.g,
     BigInt? k,
