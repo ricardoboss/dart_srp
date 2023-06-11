@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:convert/convert.dart';
 
-import './srp_int.dart';
-import './params.dart';
-import './ephemeral.dart';
-import './session.dart';
-import './srp_exception.dart';
+import 'package:srp/srp_int.dart';
+import 'package:srp/params.dart';
+import 'package:srp/ephemeral.dart';
+import 'package:srp/session.dart';
+import 'package:srp/srp_exception.dart';
 
 generateSalt() {
   final random = Random.secure();
