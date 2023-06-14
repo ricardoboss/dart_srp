@@ -12,7 +12,7 @@ class Config {
   /// [String]).
   static BigInt applyH(Hash H, Iterable args) {
     final output = new AccumulatorSink<Digest>();
-    final input = sha256.startChunkedConversion(output);
+    final input = H.startChunkedConversion(output);
     for (final arg in args) {
       if (arg is BigInt) {
         input.add(arg.toHexBytes());
