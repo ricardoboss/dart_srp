@@ -54,7 +54,7 @@ class Server {
     final B = (k * v + g.modPow(b, N)) % N;
     final u = H([A, B]);
 
-    final S = (A * (v.modPow(u, N))).modPow(b, N);
+    final S = (A * (v.modPow(u, N))).modPow(b, N).abs();
 
     final K = common.calculateWowSessionKey(config, S);
     // final K = H([S]);
