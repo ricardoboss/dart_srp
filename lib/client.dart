@@ -1,5 +1,5 @@
-import 'package:srp/verifier.dart';
 import 'package:srp/common.dart' as common;
+import 'package:srp/config.dart';
 import 'package:srp/ephemeral.dart';
 import 'package:srp/private_key.dart';
 import 'package:srp/public_ephemeral.dart';
@@ -8,8 +8,8 @@ import 'package:srp/secret_ephemeral.dart';
 import 'package:srp/session.dart';
 import 'package:srp/session_key.dart';
 import 'package:srp/session_proof.dart';
-import 'package:srp/config.dart';
 import 'package:srp/srp_exception.dart';
+import 'package:srp/verifier.dart';
 
 class Client {
   final Config config;
@@ -83,9 +83,10 @@ class Client {
       throw SrpException('The random scrambling parameter ended up being 0');
     }
 
-    final S = (B - (k * (g.modPow(x, N)))).modPow(a + (u * x), N);
+    final S = (B - (k * (g.modPow(x, N)))).modPow(a + (u * x), N).abs();
 
-    final K = H([S]);
+    final K = common.calculateWowSessionKey(config, S);
+    // final K = H([S]);
 
     final M = H([
       H([N]) ^ H([g]),

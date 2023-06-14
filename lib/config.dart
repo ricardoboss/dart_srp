@@ -12,15 +12,20 @@ class Config {
   /// [String]).
   static BigInt applyH(Hash H, Iterable args) {
     final output = new AccumulatorSink<Digest>();
+
     final input = sha256.startChunkedConversion(output);
-    for (final arg in args) {
-      if (arg is BigInt) {
-        input.add(arg.toHexBytes());
-      } else if (arg is String) {
-        input.add(utf8.encode(arg));
-      } else {
-        throw new SrpException(
-            "Invalid variable type passed (only BigInt and String allowed)");
+    if (args is Iterable<int>) {
+      input.add(args.toList(growable: false));
+    } else {
+      for (final arg in args) {
+        if (arg is BigInt) {
+          input.add(arg.toHexBytes());
+        } else if (arg is String) {
+          input.add(utf8.encode(arg));
+        } else {
+          throw new SrpException(
+              "Invalid variable type passed (only BigInt and String allowed)");
+        }
       }
     }
     input.close();

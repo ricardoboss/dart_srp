@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:convert/convert.dart';
+import 'package:srp/big_int_extensions.dart';
+import 'package:srp/config.dart';
 import 'package:srp/salt.dart';
 
 const hashOutputBytes = 256 ~/ 8;
@@ -13,3 +15,27 @@ BigInt generateSecureRandom() {
 }
 
 Salt generateSalt() => Salt(generateSecureRandom());
+
+BigInt calculateWowSessionKey(Config config, BigInt S) {
+  final H = config.H;
+
+  final sBytes = S.toHexBytes().asMap().entries;
+
+  final evenPairs = sBytes.toList()..retainWhere((pair) => pair.key % 2 == 0);
+  final evenBytes = evenPairs.map((pair) => pair.value);
+
+  final oddPairs = sBytes.toList()..retainWhere((pair) => pair.key % 2 == 1);
+  final oddBytes = oddPairs.map((pair) => pair.value);
+
+  final evenHashBytes =
+      H(evenBytes).toHexBytes().take(20).toList(growable: false);
+  final oddHashBytes =
+      H(oddBytes).toHexBytes().take(20).toList(growable: false);
+
+  final interleaved = <int>[];
+  for (var i = 0; i < 40; i++) {
+    interleaved.add(i % 2 == 0 ? evenHashBytes[i ~/ 2] : oddHashBytes[i ~/ 2]);
+  }
+
+  return BigInt.parse(hex.encode(interleaved), radix: 16);
+}
