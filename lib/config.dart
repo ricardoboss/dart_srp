@@ -13,7 +13,7 @@ class Config {
   static BigInt applyH(Hash H, Iterable args) {
     final output = new AccumulatorSink<Digest>();
 
-    final input = sha256.startChunkedConversion(output);
+    final input = H.startChunkedConversion(output);
     if (args is Iterable<int>) {
       input.add(args.toList(growable: false));
     } else {
