@@ -2,7 +2,7 @@ import 'package:convert/convert.dart';
 
 extension SrpInt on BigInt {
   String toHex() {
-    final str = this.toRadixString(16);
+    final str = this.toRadixString(16).toUpperCase();
 
     if (str.length.isEven) return str;
 

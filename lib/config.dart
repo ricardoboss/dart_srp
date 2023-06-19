@@ -19,9 +19,9 @@ class Config {
     } else {
       for (final arg in args) {
         if (arg is BigInt) {
-          input.add(arg.toHexBytes());
+          input.add(arg.toHexBytes().reversed.toList(growable: false));
         } else if (arg is String) {
-          input.add(utf8.encode(arg));
+          input.add(ascii.encode(arg));
         } else {
           throw new SrpException(
               "Invalid variable type passed (only BigInt and String allowed)");
@@ -30,10 +30,12 @@ class Config {
     }
     input.close();
 
-    final hexStr = output.events.single.toString();
+    final digest = output.events.single;
     output.close();
 
-    return BigInt.parse(hexStr, radix: 16);
+    final reversedBytes = digest.bytes.reversed.toList(growable: false);
+    final hexDigest = hex.encode(reversedBytes);
+    return BigInt.parse(hexDigest, radix: 16);
   }
 
   /// A large, safe prime N for computing g^x mod N
