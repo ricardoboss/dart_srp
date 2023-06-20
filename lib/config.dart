@@ -19,7 +19,7 @@ class Config {
     } else {
       for (final arg in args) {
         if (arg is BigInt) {
-          input.add(arg.toHexBytes().reversed.toList(growable: false));
+          input.add(arg.toBytes());
         } else if (arg is String) {
           input.add(ascii.encode(arg));
         } else {

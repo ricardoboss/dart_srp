@@ -19,7 +19,7 @@ Salt generateSalt() => Salt(generateSecureRandom());
 BigInt calculateWowSessionKey(Config config, BigInt S) {
   final H = config.H;
 
-  final sBytes = S.toHexBytes().reversed.toList().asMap().entries;
+  final sBytes = S.toBytes().asMap().entries;
 
   final evenPairs = sBytes.toList()..retainWhere((pair) => pair.key % 2 == 0);
   final evenBytes = evenPairs.map((pair) => pair.value);
@@ -28,16 +28,14 @@ BigInt calculateWowSessionKey(Config config, BigInt S) {
   final oddBytes = oddPairs.map((pair) => pair.value);
 
   final evenHashBytes =
-      H(evenBytes).toHexBytes().reversed.take(20).toList(growable: false);
+      H(evenBytes).toBytes().take(20).toList(growable: false);
   final oddHashBytes =
-      H(oddBytes).toHexBytes().reversed.take(20).toList(growable: false);
+      H(oddBytes).toBytes().take(20).toList(growable: false);
 
   final interleaved = <int>[];
   for (var i = 0; i < 40; i++) {
     interleaved.add(i % 2 == 0 ? evenHashBytes[i ~/ 2] : oddHashBytes[i ~/ 2]);
   }
 
-  // FIXME: this part doesn't work yet
-  final interleavedHex = hex.encode(interleaved);
-  return BigInt.parse(interleavedHex, radix: 16);
+  return SrpInt.fromBytes(interleaved);
 }

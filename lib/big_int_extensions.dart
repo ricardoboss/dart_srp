@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:convert/convert.dart';
 
 extension SrpInt on BigInt {
@@ -9,5 +11,12 @@ extension SrpInt on BigInt {
     return '0' + str;
   }
 
-  List<int> toHexBytes() => hex.decoder.convert(this.toHex());
+  Uint8List toBytes() => Uint8List.fromList(hex.decoder.convert(this.toHex()).reversed.toList());
+
+  static BigInt fromBytes(List<int> data) {
+    final reversed = data.reversed.toList(growable: false);
+    final hexData = hex.encode(reversed);
+
+    return BigInt.parse(hexData, radix: 16);
+  }
 }
